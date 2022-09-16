@@ -4,6 +4,8 @@
 A STOLport was an airport designed with STOL (Short Take-Off and Landing) operations in mind
 #+END_QUOTE
 
+[[file:STOLport.png]]
+
 STOLport is a work-in-progress system for keeping track of the history and location of physical objects, based around a STOL (Short Token, Okay Length) given to each item. Often the item's STOL will be affixed by way of a label printer.
 
 * STOL
