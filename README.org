@@ -9,6 +9,10 @@ A STOLport was an airport designed with STOL (Short Take-Off and Landing) operat
 STOLport is a work-in-progress system for keeping track of the history and location of physical objects, based around a STOL (Short Token, Okay Length) given to each item. Often the item's STOL will be affixed by way of a label printer.
 
 * STOL
+#+BEGIN_HTML
+<img src="https://img.shields.io/badge/status-alpha-red?style=flat-square" />
+#+END_HTML
+
 The unique ID given to each item is called a /STOL/ in this system, an abbreviation for "Short Token, Okay Length". It is inspired by tokens such as UUID, Snowflake, Push IDs, or ULID. Those IDs are designed to be used by distributed systems and avoid conflicts with millisecond precision. STOL is designed to track the physical items of one individual or small family, and as such it can achieve shorter lengths primarily by reducing specificity and increasing the chance of duplicates.
 
 A STOL encodes 2-bytes of a day count since an arbitrary epoch, followed by 2-bytes of entropy data derived from a random number generator. This scheme allows for 65K items to be added daily for 179 years. This far exceeds the expected usage pattern (and, unfortunately, my lifespan). A STOL is encoded using a modified base-32 that is case insensitive and URL-safe.
@@ -20,3 +24,15 @@ A STOL encodes 2-bytes of a day count since an arbitrary epoch, followed by 2-by
  Count     16-bits
  16-bits
 #+END_EXAMPLE
+
+* STOLport
+#+BEGIN_HTML
+<img src="https://img.shields.io/badge/status-unimplemented-inactive?style=flat-square" />
+#+END_HTML
+
+Eventually a server (and database) for keeping track of physical items based on their STOL IDs. Currently not implemented, but goals include:
+
+- Filtering items based on current location, categories, and tags.
+- Keep track of an item's history.
+- Stores freeform notes and key-value metadata.
+- And more!
