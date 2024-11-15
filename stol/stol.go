@@ -4,9 +4,7 @@
 // Package stol implements the "short token, okay length" IDs.
 package stol
 
-import (
-	"io"
-)
+import "io"
 
 /*
 STOL is a 4-byte identifier that can be roughly sorted to day specificity.
@@ -22,18 +20,27 @@ STOL is a 4-byte identifier that can be roughly sorted to day specificity.
 // STOL is a roughly sortable ID.
 type STOL [4]byte
 
-// New returns a STOL with the given day count and entropy source.
-//
-// Safety for concurrent use is dependent on the safety of the
-// entropy source.
-func New(dc uint16, r io.Reader) (STOL, error) {
+// New returns a STOL with the given day count and entropy.
+func New(dc uint16, entropy [2]byte) STOL {
 	id := STOL{}
 	id[0] = byte(dc >> 8)
 	id[1] = byte(dc)
+	copy(id[2:], entropy[:])
 
-	_, err := io.ReadFull(r, id[2:])
+	return id
+}
 
-	return id, err
+// WithReader returns a STOL with the given day count and entropy source.
+//
+// Safety for concurrent use is dependent on the safety of the
+// entropy source.
+func WithReader(dc uint16, r io.Reader) (STOL, error) {
+	var e [2]byte
+	if _, err := io.ReadFull(r, e[:]); err != nil {
+		return STOL{}, err
+	}
+
+	return New(dc, e), nil
 }
 
 // Parse parses an encoded STOL.
@@ -56,9 +63,9 @@ func (id STOL) Days() uint16 {
 }
 
 // Entropy returns the entropy from the STOL.
-func (id STOL) Entropy() []byte {
-	p := make([]byte, 2)
-	copy(p, id[2:])
+func (id STOL) Entropy() [2]byte {
+	var p [2]byte
+	copy(p[:], id[2:])
 	return p
 }
 

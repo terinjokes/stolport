@@ -4,9 +4,9 @@
 package main
 
 import (
+	"crypto/rand"
 	"flag"
 	"fmt"
-	"math/rand"
 	"time"
 
 	"github.com/terinjokes/stolport/stol"
@@ -26,9 +26,7 @@ func main() {
 func generate() {
 	// fun, definitely arbitrary epoch
 	t := uint16(time.Now().UTC().Unix()/86400 - 7841)
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	id, err := stol.New(t, r)
-
+	id, err := stol.WithReader(t, rand.Reader)
 	if err != nil {
 		panic(err)
 	}
